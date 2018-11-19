@@ -48,6 +48,28 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        
+        int maxLen = 0;
+        unordered_map<char, int> record;
+
+        for(int i = 0; i < s.length(); i++){
+            int len = 1;
+            record[s[i]] = i;
+            for(int j = i + 1; j < s.length(); j++){
+                if(record.find(s[j]) != record.end()){
+                    i = record.find(s[j])->second;
+                    record.clear();
+                    break;
+                }
+                else{
+                    record[s[j]] = j;
+                    len++;
+                }
+            }
+
+            if(len > maxLen)
+                maxLen = len;
+        }
+
+        return maxLen;
     }
 };
