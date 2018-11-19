@@ -48,28 +48,53 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int maxLen = 0;
+        int maxLen = 0, str_len = s.length();
+        int i = 0, j = 0;
         unordered_map<char, int> record;
 
-        for(int i = 0; i < s.length(); i++){
-            int len = 1;
-            record[s[i]] = i;
-            for(int j = i + 1; j < s.length(); j++){
-                if(record.find(s[j]) != record.end()){
-                    i = record.find(s[j])->second;
-                    record.clear();
-                    break;
-                }
-                else{
-                    record[s[j]] = j;
-                    len++;
-                }
+        while(i < str_len && j < str_len){
+            auto search = record.find(s[j]);
+            if(search == record.end()){
+                record[s[j]] = j;
+                j++;
+                maxLen = max(maxLen, j - i);
             }
-
-            if(len > maxLen)
-                maxLen = len;
+            else{
+                record.erase(record.find(s[i]));
+                i++;
+            }
         }
 
         return maxLen;
     }
+
+    // *** 
+    // First Submission, time consumption - O(n^2)
+    // ***
+     
+    // int lengthOfLongestSubstring(string s) {
+    //     int maxLen = 0;
+    //     unordered_map<char, int> record;
+
+    //     for(int i = 0; i < s.length(); i++){
+    //         int len = 1;
+    //         record[s[i]] = i;
+    //         for(int j = i + 1; j < s.length(); j++){
+    //             if(record.find(s[j]) != record.end()){
+    //                 i = record.find(s[j])->second;
+    //                 record.clear();
+    //                 break;
+    //             }
+    //             else{
+    //                 record[s[j]] = j;
+    //                 len++;
+    //             }
+    //         }
+
+    //         if(len > maxLen)
+    //             maxLen = len;
+    //     }
+
+    //     return maxLen;
+    // }
 };
