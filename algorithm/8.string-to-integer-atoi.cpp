@@ -83,7 +83,17 @@
  */
 class Solution {
 public:
+    static inline void ltrim(std::string &s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
+            return !std::isspace(ch);
+        }));
+    }
+
     int myAtoi(string str) {
+        if(str == "")
+            return 0;
+
+
         
     }
 };
