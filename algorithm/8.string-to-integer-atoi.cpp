@@ -88,12 +88,55 @@ public:
             return !std::isspace(ch);
         }));
     }
+    
+    static inline void ltrim_zero(std::string &s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
+            return ch != '0';
+        }));
+    }
+
 
     int myAtoi(string str) {
         if(str == "")
             return 0;
 
+        ltrim(str);
+        int result = 0;
+        bool sign;
 
-        
+        if(str[0] == '+' || isdigit(str[0])){
+            sign = true;
+            if(str[0] == '+'){
+                str[0] = '0';
+                ltrim_zero(str);
+            }
+        }
+        else if(str[0] == '-'){
+            sign = false;
+            str[0] = '0';
+            ltrim_zero(str);
+        }
+        else{
+            return 0;
+        }
+        for(int i = 0; i < str.size(); i++){
+            if(isdigit(str[i])){
+                int digit = str[i] - '0', prev = result;
+                result = result * 10 + digit;
+                if((result - digit) / 10 != prev || (result * (sign ? 1 : -1) >= 0) != sign){
+                    if(sign){
+                        return 2147483647;
+                    }
+                    else{
+                        return -2147483648;
+                    }
+                }
+            }
+            else{
+                break;
+            }
+        }
+
+        return sign ? result : result * -1;
     }
 };
