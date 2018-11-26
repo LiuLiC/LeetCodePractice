@@ -36,16 +36,34 @@
  */
 class Solution {
 public:
+    // Time - O(n)
     int maxArea(vector<int>& height) {
+        int i = 0, j = height.size() - 1;
         int maxArea = 0;
-        for(int i = 0; i < height.size(); i++){
-            for(int j = i; j < height.size(); j++){
-                int min_height = min(height[i], height[j]);
-                int area = min_height * (j - i);
-                maxArea = max(maxArea, area);
-            }
+        while(i < j){
+            int area = min(height[i], height[j]) * (j - i);
+            maxArea = max(maxArea, area);
+
+            if(height[i] >= height[j])
+                j--;
+            else
+                i++;
         }
 
         return maxArea;
     }
+
+    // Time - O(n^2)
+    // int maxArea(vector<int>& height) {
+    //     int maxArea = 0;
+    //     for(int i = 0; i < height.size(); i++){
+    //         for(int j = i; j < height.size(); j++){
+    //             int min_height = min(height[i], height[j]);
+    //             int area = min_height * (j - i);
+    //             maxArea = max(maxArea, area);
+    //         }
+    //     }
+
+    //     return maxArea;
+    // }
 };
