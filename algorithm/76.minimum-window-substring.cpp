@@ -33,74 +33,46 @@
  */
 class Solution {
 public:
-    bool isValid(unordered_map<char, int>& p){
-        for(auto it = p.begin(); it != p.end(); it++){
-            if(it->second > 0)
-                return false;
-        }
-        return true;
-    }
-
     string minWindow(string s, string t) {
+        if(s.empty() || t.empty())
+            return "";
+
         // initialize hashmap for t
-        unordered_map<char, int> p;
-        for(int i = 0; i < t.length(); i++){
+        int count = t.length();
+        int hash[128] = {0};
+        bool require[128] = {false};
+        for(int i = 0; i < count; i++){
             char c = t[i];
-            if(p.count(c) == 0){
-                p[c] = 1;
+            hash[c]++;
+            require[c] = true;
+        }
+
+        int i = -1, j = 0, min_len = INT_MAX, min_idx = 0;
+
+        while(i < (int)s.length() && j < s.length()){
+            if(count){
+                i++;
+                hash[s[i]]--;
+                if(require[s[i]] && hash[s[i]] >= 0){
+                    count--;
+                }
             }
             else{
-                p[c]++;
+                if(min_len > i - j + 1){
+                    min_len = i - j + 1;
+                    min_idx = j;
+                }
+                hash[s[j]]++;
+                if(require[s[j]] && hash[s[j]] > 0){
+                    count++;
+                }
+                j++;
             }
         }
 
-        int i = 0, j = 0, len = INT_MAX;
-        string result = "";
-        while(j < s.length() + 1){
-            // cout << i << '\t' << j << endl;
-            while(i <= j && j < s.length()){
-                char cur_j = s[j];
-                if(p.count(cur_j) == 0){
-                    j++;
-                }
-                else{
-                    p.find(cur_j)->second--;
-                    if(isValid(p)){
-                        string valid_str = s.substr(i, j - i + 1);
-                        if(valid_str.length() < len){
-                            len = valid_str.length();
-                            result = valid_str;
-                        }
-                        break;
-                    }
-                    j++;
-                }
-            }
+        if(min_len == INT_MAX)
+            return "";
 
-            // cout << i << '\t' << j << endl;
-
-            while(i <= j){
-                char cur_i = s[i];
-                if(p.count(cur_i) == 0){
-                    i++;
-                    string valid_str = s.substr(i, j - i + 1);
-                    if(valid_str.length() < len){
-                        len = valid_str.length();
-                        result = valid_str;
-                    }
-                }
-                else{
-                    p.find(cur_i)->second++;
-                    i++;
-                    break;
-                }
-            }
-            j++;
-
-            // cout << i << '\t' << j << endl;
-
-        }
-
-        return result;
+        return s.substr(min_idx, min_len);
     }
 };
