@@ -40,17 +40,38 @@
  */
 class Solution {
 public:
-    void sortColors(vector<int>& nums) {
-        vector<int> count = {0, 0, 0};
-        for(int i = 0; i < nums.size(); i++){
-            count[nums[i]]++;
-        }
+    // two-pass solution
+    // void sortColors(vector<int>& nums) {
+    //     vector<int> count = {0, 0, 0};
+    //     for(int i = 0; i < nums.size(); i++){
+    //         count[nums[i]]++;
+    //     }
 
-        int j = 0;
-        for(int i = 0; i < count.size(); i++){
-            int k = j;
-            for(; j < count[i] + k; j++){
-                nums[j] = i;
+    //     int j = 0;
+    //     for(int i = 0; i < count.size(); i++){
+    //         int k = j;
+    //         for(; j < count[i] + k; j++){
+    //             nums[j] = i;
+    //         }
+    //     }
+    // }
+
+    // one-pass solution
+    void sortColors(vector<int>& nums){
+        int i = 0, j = 0;
+
+        for(int t = 0; t < nums.size(); t++){
+            int v = nums[t];
+            nums[t] = 2;
+
+            if(v < 2){
+                nums[j] = 1;
+                j++;
+            }
+
+            if(v == 0){
+                nums[i] = 0;
+                i++;
             }
         }
     }
