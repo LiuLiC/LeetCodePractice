@@ -53,4 +53,33 @@ public:
     //     traversal(root, result);
     //     return result;
     // }
+
+    vector<int> inorderTraversal(TreeNode* root) {
+        TreeNode* cur = root;
+        vector<int> result;
+
+        while(cur != NULL){
+            if(cur->left){
+                TreeNode* pre = cur->left;
+                while(pre->right && pre->right != cur)
+                    pre = pre->right;
+
+                if(pre->right == NULL){
+                    pre->right = cur;
+                    cur = cur->left;
+                }
+                else{
+                    pre->right = NULL;
+                    result.push_back(cur->val);
+                    cur = cur->right;
+                }
+            }
+            else{
+                result.push_back(cur->val);
+                cur = cur->right;
+            }
+        }
+
+        return result;
+    }
 };
