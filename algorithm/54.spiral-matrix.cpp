@@ -39,67 +39,102 @@
  */
 class Solution {
 public:
+    // More understandable way
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
         vector<int> result;
-        if(matrix.empty())
+        int rows = matrix.size();
+        if(rows == 0)
+            return result;
+        int cols = matrix[0].size();
+        if(cols == 0)
             return result;
 
-        int m = matrix.size(), n = matrix[0].size(), visited = 0, i = 0, j = 0;
-        if(m == 1 || n == 1){
-            if(m == 1){
-                while(j < n)
-                    result.push_back(matrix[0][j++]);
-            }else if(n == 1){
-                while(i < m)
-                    result.push_back(matrix[i++][0]);
-            }
-            
-            return result;
-        }
-        int up = 0, right = n, down = m, left = 0;
+        int rowStart = 0, rowEnd = rows - 1, colStart = 0, colEnd = cols - 1;
+        while(rowStart <= rowEnd && colStart <= colEnd){
+            for(int i = colStart; i <= colEnd; i++)
+                result.push_back(matrix[rowStart][i]);
+            rowStart++;
 
-        while(visited < m * n){
+            for(int i = rowStart; i <= rowEnd; i++)
+                result.push_back(matrix[i][colEnd]);
+            colEnd--;
 
-            while(j < right - 1){
-                result.push_back(matrix[i][j]);
-                j++;
-                visited++;
+            if(rowStart <= rowEnd){
+                for(int i = colEnd; i >= colStart; i--)
+                    result.push_back(matrix[rowEnd][i]);
+                rowEnd--;
             }
-            right--;
-            while(i < down - 1){
-                result.push_back(matrix[i][j]);
-                i++;
-                visited++;
-            }
-            down--;
-            while(j > left){
-                result.push_back(matrix[i][j]);
-                j--;
-                visited++;
-            }
-            left++;
-            while(i > up){
-                result.push_back(matrix[i][j]);
-                i--;
-                visited++;
-            }
-            up++;
-            i++, j++;
 
-            if(left == right - 1 || up == down - 1){
-                if(left == right - 1){
-                    while(i < down)
-                        result.push_back(matrix[i++][j]);
-                    break;
-                }
-                else if(left != right - 1){
-                    while(j < right)
-                        result.push_back(matrix[i][j++]);
-                    break;
-                }
+            if(colStart <= colEnd){
+                for(int i = rowEnd; i >= rowStart; i--)
+                    result.push_back(matrix[i][colStart]);
+                colStart++;
             }
         }
 
         return result;
     }
+    // vector<int> spiralOrder(vector<vector<int>>& matrix) {
+    //     vector<int> result;
+    //     if(matrix.empty())
+    //         return result;
+
+    //     int m = matrix.size(), n = matrix[0].size(), visited = 0, i = 0, j = 0;
+    //     if(m == 1 || n == 1){
+    //         if(m == 1){
+    //             while(j < n)
+    //                 result.push_back(matrix[0][j++]);
+    //         }else if(n == 1){
+    //             while(i < m)
+    //                 result.push_back(matrix[i++][0]);
+    //         }
+            
+    //         return result;
+    //     }
+    //     int up = 0, right = n, down = m, left = 0;
+
+    //     while(visited < m * n){
+
+    //         while(j < right - 1){
+    //             result.push_back(matrix[i][j]);
+    //             j++;
+    //             visited++;
+    //         }
+    //         right--;
+    //         while(i < down - 1){
+    //             result.push_back(matrix[i][j]);
+    //             i++;
+    //             visited++;
+    //         }
+    //         down--;
+    //         while(j > left){
+    //             result.push_back(matrix[i][j]);
+    //             j--;
+    //             visited++;
+    //         }
+    //         left++;
+    //         while(i > up){
+    //             result.push_back(matrix[i][j]);
+    //             i--;
+    //             visited++;
+    //         }
+    //         up++;
+    //         i++, j++;
+
+    //         if(left == right - 1 || up == down - 1){
+    //             if(left == right - 1){
+    //                 while(i < down)
+    //                     result.push_back(matrix[i++][j]);
+    //                 break;
+    //             }
+    //             else if(left != right - 1){
+    //                 while(j < right)
+    //                     result.push_back(matrix[i][j++]);
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     return result;
+    // }
 };
