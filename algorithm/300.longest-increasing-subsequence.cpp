@@ -42,7 +42,7 @@ public:
         vector<int> dp(nums.size(), 0);
         dp[0] = 1;
 
-        int result = 0;
+        int result = 1;
         for(int i = 1; i < nums.size(); i++){
             int maxLIS = 0;
             for(int j = 0; j < i; j++){
