@@ -92,15 +92,11 @@ public:
 
         for(int i = 0; i < s.size(); i++){
             for(int j = 0; j < p.size(); j++){
-                if(p[j] == '.'){
+                if(p[j] == '.' || p[j] == s[i]){
                     dp[i+1][j+1] = dp[i][j];
                 }
 
-                if(p[j] == s[i]){
-                    dp[i+1][j+1] = dp[i][j];
-                }
-
-                if(p[j] == '*'){
+                else if(p[j] == '*'){
                     if(p[j-1] != s[i] && p[j-1] != '.'){
                         dp[i+1][j+1] = dp[i+1][j-1];
                     }
